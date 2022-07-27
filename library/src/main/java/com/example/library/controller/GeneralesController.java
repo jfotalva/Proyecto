@@ -23,13 +23,7 @@ public class GeneralesController {
         libreria.setHorario("7 a.m a 5:30 p.m.");
     }
 
-    private String generarAleatorio(int min, int max) {
-        Date date = new Date();
-        long timeMilli = date.getTime();
-        // private String id;
-        return String.valueOf(timeMilli+2).substring(min, max);
-    }
-
+    
     @GetMapping("/")
     public Libreria info() {
         return libreria;

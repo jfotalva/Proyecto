@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.library.model.Book;
 
-public class MongoBookRepository implements BookRepository{
+public class MongoBookRepository implements BookRepository {
 
     @Override
     public List<Book> getAll() {
@@ -36,11 +36,10 @@ public class MongoBookRepository implements BookRepository{
         return null;
     }
 
-    /*
     @Override
-    public void delete(String bookId) {
+    public List<Book> findByTitle(String title) {
         // TODO Auto-generated method stub
-        
+        return null;
     }
-*/    
+
 }

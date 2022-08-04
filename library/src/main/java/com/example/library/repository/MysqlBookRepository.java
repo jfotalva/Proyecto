@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.library.model.Book;
 
-public class MysqlBookRepository implements BookRepository{
+public class MysqlBookRepository implements BookRepository {
 
     @Override
     public List<Book> getAll() {
@@ -34,7 +34,13 @@ public class MysqlBookRepository implements BookRepository{
     public Book delete(String bookId) {
         return null;
         // TODO Auto-generated method stub
-        
+
     }
-    
+
+    @Override
+    public List<Book> findByTitle(String title) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

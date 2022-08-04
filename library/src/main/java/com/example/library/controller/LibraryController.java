@@ -11,53 +11,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.library.model.Book;
-import com.example.library.repository.MemoryBookRepository;
+import com.example.library.service.BookService;
 
 @RestController
 @RequestMapping(value = "/library")
 public class LibraryController {
 
-    Book book = new Book();
-    MemoryBookRepository memoryBookRepository = new MemoryBookRepository();
+    private final BookService bookService;
 
-    public LibraryController() {
+    public LibraryController(BookService bookService) {
+        this.bookService = bookService;
     }
 
+    // Obtengo todos los libros
+    // Obtengo por nombre de Autor(Parámetro)
+    // Obtengo por nombre de Libro(Parámetro)
     @GetMapping("/books")
-    public List<Book> getAll() {
-        return memoryBookRepository.getAll();
+    public List<Book> getAll(@RequestParam(required = false) String author, String title) {
+        if ((author == null) && title == null) {
+            return this.bookService.getAll();
+        }
+        if (author != null) {
+            return this.bookService.findByAuthor(author);
+        } else {
+            return this.bookService.findByTitle(title);
+        }
     }
 
-    @GetMapping("/books/{id}")
-    public Book get(@PathVariable String id) {
-        return memoryBookRepository.get(id);
+    // Obtengo por bookId
+    @GetMapping("/books/{bookId}")
+    public Book get(@PathVariable String bookId) {
+        return this.bookService.get(bookId);
     }
 
-    // http://localhost:7000/library/books?author=Gabriel García Márquez_NK (Error,
-    // método duplicado)
-    // http://localhost:7000/library/books/author?author=Gabriel García Márquez_OK
-    @GetMapping("/books/author")
-    public List<Book> findByAuthor(@RequestParam(value = "author") String author) {
-        return memoryBookRepository.findByAuthor(author);
-    }
-
+    // Guardo un nuevo libro
     @PostMapping("/books")
-    public String saveBook(@RequestBody Book book) {
-        memoryBookRepository.save(book);
-        return "Se agregó el libro.";
+    public Book saveBook(@RequestBody Book book) {
+        return this.bookService.saveBook(book);
     }
 
-    @PutMapping("/books/{id}")
-    public String updateBook(@RequestBody Book book) {
-        Book bookVar = memoryBookRepository.get(book.getBookId());
-        memoryBookRepository.save(book);
-        return "Se actualizó el libro: \n" + "Antes:   " + bookVar + "\n" + "Después: " + book;
-        //return book;
+    // Actualizo por bookId
+    @PutMapping("/books/{bookId}")
+    public Book updateBook(@PathVariable String bookId, @RequestBody Book book) {
+        if (bookId.equals(book.getBookId())) {
+            return this.bookService.updateBook(bookId, book);
+        } else {
+            return null;
+        }
     }
 
-    @DeleteMapping("/books/{id}")
-    public String delete(@PathVariable String id) {
-        memoryBookRepository.delete(id);
-        return "Se eliminó el libro con Id: " + id;
+    // Elimino por bookId
+    @DeleteMapping("/books/{bookId}")
+    public Book delete(@PathVariable String bookId) {
+        return this.bookService.delete(bookId);
     }
+
 }

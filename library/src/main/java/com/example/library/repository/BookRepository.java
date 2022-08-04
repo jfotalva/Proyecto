@@ -10,4 +10,5 @@ public interface BookRepository {
     public List<Book> findByAuthor(String author);
     public Book save(Book book);
     public Book delete(String bookId);
+    public List<Book> findByTitle(String title);
 }

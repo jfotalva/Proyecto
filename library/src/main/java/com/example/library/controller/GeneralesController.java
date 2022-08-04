@@ -1,10 +1,14 @@
 package com.example.library.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.Console;
 import java.util.Date;
 import com.example.library.model.Libreria;
 
@@ -23,7 +27,6 @@ public class GeneralesController {
         libreria.setHorario("7 a.m a 5:30 p.m.");
     }
 
-    
     @GetMapping("/")
     public Libreria info() {
         return libreria;
@@ -49,9 +52,8 @@ public class GeneralesController {
         return libreria.getHorario();
     }
 
-    @PostMapping("/user")
-    @ResponseBody
-    public String user(String user) {
+    @PostMapping("/user/{user}")
+    public String user(@PathVariable String user) {
         return "USER con método POST --> " + user;
     }
 }
